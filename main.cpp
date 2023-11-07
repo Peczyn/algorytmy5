@@ -224,4 +224,19 @@ int main() {
             22
     12              30
 8       20      25      40
+
+1. Napisz trzy funkcję do przechodzenia drzewa BST i wypisz wynik:
+    a. PreOrder,
+    b. PostOrder,
+    c. InOrder.
+2. Napisz funkcję, która znajdzie w strukturze drzewa:
+    a. Minimum,
+    b. Maksimum.
+3. Napisz funkcje, która obliczy wysokość drzewa,
+4. Napisz funkcję, która znajdzie:
+    a. Następnika podanego węzła,
+    b. Poprzednika podanego węzła.
+5. Napisz funkcję, która:
+    a. Wstawi podany element w odpowiednie miejsce drzewa,
+    b. Usunie podany element.
 */
