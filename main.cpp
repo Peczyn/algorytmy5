@@ -51,10 +51,57 @@ BST* BST::Insert(BST *root, int value) {
     }
     return root;
 }
-BST *BST::Delete(BST *root, int value) {
+BST* BST::Delete(BST *root, int value) {
+    BST* temproot = new BST;
+
     if(root->val == value)
     {
+        if(root->right || root->left)
+        {
+            temproot->val=root->val;
+            while(root->right || root->left)
+            {
+                if(root->right)
+                {
+                    root->val = root->right->val;
+                    root = root->right;
+                }
+                else if(root->left)
+                {
+                    root->val = root->left->val;
+                    root = root->left;
+                }
+            }
 
+            root->parent->right = nullptr;
+            return new BST(temproot->val);
+        }
+        else
+        {
+            root=root->parent;
+            if(root->right->val == value)
+            {
+                temproot->val = value;
+                root->right = nullptr;
+            }
+            else
+            {
+                temproot->val = value;
+                root->left = nullptr;
+            }
+        }
+
+    }
+    else
+    {
+        if(root->val > value)
+        {
+            return Delete(root->left,value);
+        }
+        else
+        {
+            return Delete(root->right,value);
+        }
     }
 }
 
@@ -156,14 +203,23 @@ int main() {
     root = BST::Insert(root,40);
 
 
-    //BST::printTreePostOrder(root);
-    BST* max = BST::max(root);
-    BST* min = BST::min(root);
-    //cout << root->height(root,0);
-    //root->inOrderPredeccessor(root,12);
+//    BST::printTreePostOrder(root);
+//    BST::printTreePreOrder(root);
+//    BST::printTreeInOrder(root);
 
+//    BST* max = BST::max(root);
+//    BST* min = BST::min(root);
+
+//    cout << root->height(root,0);
+
+//    root->inOrderPredeccessor(root,12);
+//    root->inOrderSuccessor(root,12);
+
+//    BST::Delete(root,22);
     return 0;
 }
+
+//Tak powinno wygladac drzewko po implementacji
 /*
             22
     12              30
