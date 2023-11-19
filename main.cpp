@@ -51,59 +51,38 @@ BST* BST::Insert(BST *root, int value) {
     }
     return root;
 }
-BST* BST::Delete(BST *root, int value) {
-    BST* temproot = new BST;
+BST* BST::Delete(BST *root, int value) { //z jakiegos powodu wywalalo mi errora przy starym kodzie wiec zmodyfikowalem ta funkcje
+    if (value < root->val) {
+        root->left = Delete(root->left, value);
+    } else if (value > root->val) {
+        root->right = Delete(root->right, value);
+    } else {
+        // Węzeł do usunięcia został znaleziony
 
-    if(root->val == value)
-    {
-        if(root->right || root->left)
-        {
-            temproot->val=root->val;
-            while(root->right || root->left)
-            {
-                if(root->right)
-                {
-                    root->val = root->right->val;
-                    root = root->right;
-                }
-                else if(root->left)
-                {
-                    root->val = root->left->val;
-                    root = root->left;
-                }
-            }
-
-            root->parent->right = nullptr;
-            return new BST(temproot->val);
-        }
-        else
-        {
-            root=root->parent;
-            if(root->right->val == value)
-            {
-                temproot->val = value;
-                root->right = nullptr;
-            }
-            else
-            {
-                temproot->val = value;
-                root->left = nullptr;
-            }
+        // Przypadek 1: Brak lub jedno dziecko
+        if (root->left == nullptr) {
+            BST* temp = root->right;
+            delete root;
+            return temp;
+        } else if (root->right == nullptr) {
+            BST* temp = root->left;
+            delete root;
+            return temp;
         }
 
+        // Przypadek 2: Dwa dzieci - znalezienie najmniejszego węzła w prawym poddrzewie
+        BST* temp = BST::min(root->right);
+
+        // Skopiowanie wartości najmniejszego węzła do bieżącego węzła
+        root->val = temp->val;
+
+        // Usunięcie najmniejszego węzła w prawym poddrzewie
+        root->right = Delete(root->right, temp->val);
     }
-    else
-    {
-        if(root->val > value)
-        {
-            return Delete(root->left,value);
-        }
-        else
-        {
-            return Delete(root->right,value);
-        }
-    }
+
+    return root;
 }
+
 
 void BST::printTreePreOrder(BST *node) {
     if(!node)
@@ -192,32 +171,32 @@ BST *BST::inOrderPredeccessor(BST *root, int value) {
 
 
 
-int main() {
-    BST *root = NULL;
-    root = BST::Insert(root,22);
-    root = BST::Insert(root,12);
-    root = BST::Insert(root,30);
-    root = BST::Insert(root,8);
-    root = BST::Insert(root,20);
-    root = BST::Insert(root,25);
-    root = BST::Insert(root,40);
-
-
-//    BST::printTreePostOrder(root);
-//    BST::printTreePreOrder(root);
-//    BST::printTreeInOrder(root);
-
-//    BST* max = BST::max(root);
-//    BST* min = BST::min(root);
-
-//    cout << root->height(root,0);
-
-//    root->inOrderPredeccessor(root,12);
-//    root->inOrderSuccessor(root,12);
-
-//    BST::Delete(root,22);
-    return 0;
-}
+//int main() {
+//    BST *root = NULL;
+//    root = BST::Insert(root,22);
+//    root = BST::Insert(root,12);
+//    root = BST::Insert(root,30);
+//    root = BST::Insert(root,8);
+//    root = BST::Insert(root,20);
+//    root = BST::Insert(root,25);
+//    root = BST::Insert(root,40);
+//
+//
+////    BST::printTreePostOrder(root);
+////    BST::printTreePreOrder(root);
+////    BST::printTreeInOrder(root);
+//
+////    BST* max = BST::max(root);
+////    BST* min = BST::min(root);
+//
+////    cout << root->height(root,0);
+//
+////    root->inOrderPredeccessor(root,12);
+////    root->inOrderSuccessor(root,12);
+//
+//
+//    return 0;
+//}
 
 //Tak powinno wygladac drzewko po implementacji
 /*
